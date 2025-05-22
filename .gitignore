@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Django/Migrations
+*.sqlite3
+db.sqlite3
+*/migrations/__pycache__/
+*/migrations/*.py
+
+# VS Code
+.vscode/
+
