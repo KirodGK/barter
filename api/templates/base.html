@@ -1,0 +1,60 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'img/fav/fav.png' %}" type="image">
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <title>{% block title %}Barter Platform{% endblock %}</title>
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      header, footer {
+        background-color: #343a40;
+        color: white;
+        padding: 1rem 0;
+      }
+
+      .card {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .card:hover {
+        transform: scale(1.02);
+      }
+
+      .regular-link {
+        color: #0d6efd;
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      .regular-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    {# Пример: можно подключить хедер здесь #}
+    {# {% include "includes/header.html" %} #}
+
+    <main class="pt-5 my-5">
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    {# Пример: можно подключить футер здесь #}
+    {# {% include "includes/footer.html" %} #}
+
+    <script src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

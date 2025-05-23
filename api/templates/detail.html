@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="card shadow p-4 mb-5">
+    <h1 class="pb-2 mb-4 border-bottom">{{ Announcement.title }}</h1>
+    <div class="row g-4 align-items-start">
+      <div class="col-md-6">
+        <h5 class="mb-3 text-muted">Описание</h5>
+        <p><strong>Текст:</strong> {{ Announcement.description }}</p>
+        <p><strong>Категория:</strong> {{ Announcement.category }}</p>
+        <p><strong>Дата создания:</strong> {{ Announcement.created_at|date:"d.m.Y H:i" }}</p>
+        <p><strong>Автор:</strong> {{ Announcement.author }}</p>
+        <p><strong>Состояние:</strong> {{ Announcement.condition }}</p>
+        {% if request.user == Announcement.author %}
+  <a href="#" class="btn btn-outline-primary mt-3">Редактировать</a>
+{% endif %}
+      </div>
+      <div class="col-md-6 text-center">
+        <img 
+          src="{% static 'img/image-holder.png' %}" 
+          class="img-fluid rounded" 
+          alt="Объявление" 
+          width="300" height="400">
+        {% if Announcement.image_ur %}
+          <p class="mt-2 small text-muted">Ссылка на изображение: {{ Announcement.image_ur }}</p>
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+{% endblock %}
