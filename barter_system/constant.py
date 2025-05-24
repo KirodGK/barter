@@ -4,8 +4,10 @@ CONDITION_VALUES = [
     ('broken', 'Сломан'),
 ]
 
-STATUS_DICT = {
-    'accepted': 'Принята',
-    'rejected': 'Отклонена',
-    'pending': 'Ожидает'
-}
+STATUS_VALUES = [
+    ('accepted', 'Принята'),
+    ('rejected', 'Отклонена'),
+    ('pending', 'Ожидает'),
+]
+
+PAGE_SIZE = 8

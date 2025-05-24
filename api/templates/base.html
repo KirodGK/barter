@@ -43,8 +43,8 @@
   </head>
   <body>
     {# Пример: можно подключить хедер здесь #}
-    {# {% include "includes/header.html" %} #}
-
+    {% include "header.html" %}
+    {% load static %}
     <main class="pt-5 my-5">
       <div class="container">
         {% block content %}{% endblock %}
@@ -52,8 +52,7 @@
     </main>
 
     {# Пример: можно подключить футер здесь #}
-    {# {% include "includes/footer.html" %} #}
-
+    {% include "footer.html" %} 
     <script src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
   </body>

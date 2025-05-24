@@ -1,18 +1,17 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+
 {% block content %}
   <div class="card col-4">
     <div class="card-header">
-      Создание объявления
+      {{ title|default:"Создание объявления" }}
     </div>
     <div class="card-body">
-      <form>
+      <form method="post" action="">
+        {% csrf_token %}
         {% bootstrap_form form %}
-        {% bootstrap_button button_type="submit" content="Отправить" %}
+        {% bootstrap_button button_type="submit" content=button_label|default:"Создать" %}
       </form>
     </div>
   </div>
-  {% if form.is_valid %}
-    <h2>Объявление "{{ request.GET }}" размещено!</h2>
-  {% endif %}
 {% endblock %}
