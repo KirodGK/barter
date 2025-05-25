@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from .models import Announcement
+from .models import Announcement, ExchangeProposal
 
 User = get_user_model()
 
@@ -13,21 +13,21 @@ class AnnouncementForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'category': forms.TextInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-select'}),
             'condition': forms.Select(attrs={'class': 'form-select'}),
             'image_ur': forms.URLInput(attrs={'class': 'form-control'}),
         }
+class ExchangeProposalForm(forms.ModelForm):
+    class Meta:
+        model = ExchangeProposal
+        fields = ['comment']
+        widgets = {
+            
+            'comment': forms.Textarea(attrs={'class': 'form-control',
+                                             'rows': 4}),
+            
+        }
 
-
-# class UserForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = [field.name for field in User._meta.fields if field.name not in ['last_login', 'is_superuser', 'is_staff', 'is_active', 'date_joined']]
-#         widgets = {
-#             'username': forms.TextInput(attrs={'class': 'form-control'}),
-#             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-#             # Добавь другие поля по необходимости
-#         }
 
 class UserForm(UserCreationForm):
     class Meta:

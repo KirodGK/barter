@@ -1,0 +1,41 @@
+<div class="card mb-3 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">
+        {% if view_type == 'received' %}
+          Отправитель: {{ proposal.ad_sender.username }}
+        {% elif view_type == 'sent' %}
+          Получатель: {{ proposal.ad_receiver.username }}
+        {% endif %}
+      </h5>
+      <p class="card-text"><strong>Комментарий:</strong> {{ proposal.comment }}</p>
+      <p class="card-text"><strong>Статус:</strong> {{ proposal.get_status_display }}</p>
+      <p class="card-text"><strong>Создано:</strong> {{ proposal.created_at|date:"d.m.Y H:i" }}</p>
+  
+      {% if proposal.announcement %}
+        <hr>
+        <p><strong>Товар:</strong> {{ proposal.announcement.title }}</p>
+        <p><strong>Описание:</strong> {{ proposal.announcement.description }}</p>
+        <p><strong>Категория:</strong> {{ proposal.announcement.category }}</p>
+        <p><strong>Состояние:</strong> {{ proposal.announcement.condition }}</p>
+        {% if proposal.announcement.image_url %}
+          <img src="{{ proposal.announcement.image_url }}" class="img-fluid rounded" style="max-width: 200px;">
+        {% endif %}
+      {% endif %}
+  
+      {% if view_type == 'received' %}
+        <!-- Обновление статуса -->
+        <form method="post" action="{% url 'api:announcement-change-exchange-status' proposal.pk %}" class="mt-2">
+          {% csrf_token %}
+          <div class="input-group">
+            <select name="status" class="form-select">
+              {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if proposal.status == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-outline-primary">Обновить</button>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+  

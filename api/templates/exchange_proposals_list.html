@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container my-5">
+  <h1 class="mb-4">Мои предложения обмена</h1>
+
+  <!-- Форма фильтрации для полученных -->
+  <form method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+      <input type="text" name="sender" value="{{ filter_sender }}" placeholder="Имя отправителя" class="form-control">
+    </div>
+    <div class="col-md-4">
+      <select name="status" class="form-select">
+        <option value="">Все статусы</option>
+        {% for value, label in status_choices %}
+          <option value="{{ value }}" {% if filter_status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-primary w-100">Применить фильтр</button>
+    </div>
+  </form>
+
+  <h2>Полученные предложения</h2>
+  {% if received_proposals %}
+    {% for proposal in received_proposals %}
+      {% include "includes/proposal_card.html" with proposal=proposal view_type='received' status_choices=status_choices %}
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-info">Полученных предложений не найдено.</div>
+  {% endif %}
+
+  <hr>
+
+  <h2>Отправленные предложения</h2>
+  {% if sent_proposals %}
+    {% for proposal in sent_proposals %}
+      {% include "includes/proposal_card.html" with proposal=proposal view_type='sent' status_choices=status_choices %}
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-info">Отправленных предложений не найдено.</div>
+  {% endif %}
+</div>
+{% endblock %}

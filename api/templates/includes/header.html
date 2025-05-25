@@ -1,0 +1,23 @@
+{% block header %}
+<nav class="navbar navbar-light bg-light">
+    <div class='container-fluid d-flex justify-content-between'>
+        {% if request.user.is_authenticated %}
+            <div>
+                {% if request.path != '/announcement/list/' %}
+                    <a href="/announcement/list/" class="btn btn-outline-secondary">На главную</a>
+                {% endif %}
+            {% if request.path != '/announcement/create/' %}
+                <a href="/announcement/create/" class="btn btn-outline-primary">Создать объявление</a>
+            
+                
+            {% endif %}
+            <a href="/announcement/proposal/" class="btn btn-outline-primary">Заявки</a>
+            </div>
+            <div>
+                <span class="me-3"> {{ request.user.username }}</span>
+                <a href="/announcement/logout/" class="btn btn-outline-danger">Выйти</a>
+            </div>
+        {% endif %}
+    </div>
+</nav>
+{% endblock %}
