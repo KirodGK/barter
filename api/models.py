@@ -1,12 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from barter_system.constant import CONDITION_VALUES, STATUS_VALUES
+from barter_system.constant import (STATUS_VALUES,
+                                    MAX_LENGTH_TITLE,
+                                    MAX_LENGTH_COMMENT,
+                                    MAX_LENGTH_STATUS)
 
 
 class Category(models.Model):
     title = models.CharField(
-        max_length=256,
+        max_length=MAX_LENGTH_TITLE,
         unique=True,
         verbose_name='Название'
     )
@@ -21,7 +24,7 @@ class Category(models.Model):
 
 class Condition(models.Model):
     title = models.CharField(
-        max_length=256,
+        max_length=MAX_LENGTH_TITLE,
         unique=True,
         verbose_name='Название'
     )
@@ -84,11 +87,11 @@ class ExchangeProposal(models.Model):
         related_name='exchangeproposals_received'
     )
     comment = models.CharField(
-        max_length=500,
+        max_length=MAX_LENGTH_COMMENT,
         verbose_name='Комментарий'
     )
     status = models.CharField(
-        max_length=20,
+        max_length=MAX_LENGTH_STATUS,
         choices=STATUS_VALUES,
         default='pending'
     )
