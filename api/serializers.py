@@ -16,15 +16,13 @@ class AnnouncementSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get('request')
         return Announcement.objects.create(
-            author=request.user, **validated_data)
-        
-        
-        
-        
+            author=request.user, **validated_data) 
+
+
 class ExchangeProposalCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExchangeProposal
-        fields = ['comment']  # пользователь заполняет только комментарий
+        fields = ['comment'] 
 
     def validate(self, attrs):
         request = self.context['request']
@@ -33,7 +31,6 @@ class ExchangeProposalCreateSerializer(serializers.ModelSerializer):
         if announcement.author == request.user:
             raise serializers.ValidationError("Нельзя создать предложение на собственное объявление.")
 
-        # Проверяем, есть ли уже предложение от этого пользователя к данному объявлению
         if ExchangeProposal.objects.filter(
             announcement=announcement,
             ad_sender=request.user

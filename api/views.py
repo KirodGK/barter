@@ -7,7 +7,6 @@ from django.contrib.auth import authenticate, login
 from django.core.paginator import Paginator
 from django.contrib.auth import logout
 from django.db.models import Q
-from django.db.models.functions import Lower
 
 from .models import Announcement, Category, Condition, ExchangeProposal
 from .forms import UserForm, AnnouncementForm, ExchangeProposalForm
@@ -115,16 +114,17 @@ class AnnouncementViews(viewsets.ModelViewSet):
             'button_label': 'Создать'
         })
 
-    @action(detail=True, methods=['post'], url_path='delete', permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['post'], url_path='delete',
+            permission_classes=[IsAuthenticated])
     def delete(self, request, pk=None):
         announcement = get_object_or_404(Announcement, pk=pk)
         user = request.user
 
         if user == announcement.author:
             announcement.delete()
-            return redirect('api:announcement-listing')  # 302 редирект
+            return redirect('api:announcement-listing')
         else:
-            form = ExchangeProposalForm()  # для корректного рендера detail.html
+            form = ExchangeProposalForm()
             context = {
                 'Announcement': announcement,
                 'error': 'Нет прав на удаление',

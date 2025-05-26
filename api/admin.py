@@ -9,11 +9,15 @@ class AnnouncementAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(ExchangeProposal)
-class AnnouncementAdmin(admin.ModelAdmin):
+class ExchangeProposalAdmin(admin.ModelAdmin):
     pass
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     pass
+
+
 @admin.register(Condition)
 class ConditionAdmin(admin.ModelAdmin):
     pass

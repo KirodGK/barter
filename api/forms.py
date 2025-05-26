@@ -17,15 +17,15 @@ class AnnouncementForm(forms.ModelForm):
             'condition': forms.Select(attrs={'class': 'form-select'}),
             'image_ur': forms.URLInput(attrs={'class': 'form-control'}),
         }
+
+
 class ExchangeProposalForm(forms.ModelForm):
     class Meta:
         model = ExchangeProposal
         fields = ['comment']
         widgets = {
-            
             'comment': forms.Textarea(attrs={'class': 'form-control',
                                              'rows': 4}),
-            
         }
 
 
