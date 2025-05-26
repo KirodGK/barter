@@ -2,11 +2,12 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.paginator import Paginator
 from django.contrib.auth import logout
 from django.db.models import Q
-
+from django.db.models.functions import Lower
 
 from .models import Announcement, Category, Condition, ExchangeProposal
 from .forms import UserForm, AnnouncementForm, ExchangeProposalForm
@@ -16,23 +17,21 @@ from barter_system.constant import STATUS_VALUES
 
 class AnnouncementViews(viewsets.ModelViewSet):
     queryset = Announcement.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = AnnouncementSerializer
 
-    @action(detail=False, methods=['get'], url_path='list',
-            permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['get'], url_path='list', permission_classes=[IsAuthenticated])
     def listing(self, request):
         if not request.user.is_authenticated:
             return redirect('/api/templates/errors/403.html', 403)
-        queryset = Announcement.objects.all()
 
+        queryset = Announcement.objects.all()
         search_query = request.GET.get('q')
         if search_query:
             queryset = queryset.filter(
                 Q(title__icontains=search_query) |
                 Q(description__icontains=search_query)
             )
-
         category = request.GET.get('category')
         if category:
             queryset = queryset.filter(category=category)
@@ -40,10 +39,11 @@ class AnnouncementViews(viewsets.ModelViewSet):
         condition = request.GET.get('condition')
         if condition:
             queryset = queryset.filter(condition=condition)
-
+        print(queryset.query)
         paginator = Paginator(queryset, 8)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
+
         context = {
             'page_obj': page_obj,
             'search_query': search_query,
@@ -115,20 +115,21 @@ class AnnouncementViews(viewsets.ModelViewSet):
             'button_label': 'Создать'
         })
 
-    @action(detail=True, methods=['post'], url_path='delete',
-            permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['post'], url_path='delete', permission_classes=[IsAuthenticated])
     def delete(self, request, pk=None):
         announcement = get_object_or_404(Announcement, pk=pk)
         user = request.user
 
         if user == announcement.author:
             announcement.delete()
-            print(f"Announcement {pk} deleted by user {user}")
-            return redirect('api:announcement-listing')
+            return redirect('api:announcement-listing')  # 302 редирект
         else:
-            announcement = get_object_or_404(Announcement, pk=pk)
-            context = {'Announcement': announcement,
-                       'error': 'Нет прав на удаление'}
+            form = ExchangeProposalForm()  # для корректного рендера detail.html
+            context = {
+                'Announcement': announcement,
+                'error': 'Нет прав на удаление',
+                'form': form,
+            }
             return render(request, 'detail.html', context)
 
     @action(detail=True, methods=['get', 'post'], url_path='edit',
@@ -182,15 +183,15 @@ class AnnouncementViews(viewsets.ModelViewSet):
                 'form': form,
             })
 
-    @action(detail=True, methods=['post'],
-            permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def change_exchange_status(self, request, pk=None):
         proposal = get_object_or_404(ExchangeProposal, pk=pk,
                                      ad_receiver=request.user)
         new_status = request.POST.get('status')
 
         if new_status not in dict(STATUS_VALUES).keys():
-            return HttpResponseBadRequest('Недопустимый статус')
+            messages.error(request, 'Недопустимый статус')
+            return redirect('api:announcement-listing-all-exchange-proposals')
 
         proposal.status = new_status
         proposal.save()

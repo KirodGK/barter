@@ -2,6 +2,11 @@
 {% load django_bootstrap5 %} {% block content %}
 <div class="card shadow p-4 mb-5">
   <h1 class="pb-2 mb-4 border-bottom">{{ Announcement.title }}</h1>
+  {% if error %}
+    <div class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+  {% endif %}
   <div class="row g-4 align-items-start">
     <div class="col-md-6">
       <h5 class="mb-3 text-muted">Описание</h5>

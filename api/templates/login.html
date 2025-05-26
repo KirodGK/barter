@@ -2,20 +2,27 @@
 {% load static %}
 
 {% block content %}
-  <h1>Вход</h1>
-  {% if error %}
-    <div class="alert alert-danger">{{ error }}</div>
-  {% endif %}
-  <form method="post" action="">
-    {% csrf_token %}
-    <div class="mb-3">
-      <label for="username">Имя пользователя</label>
-      <input type="text" name="username" class="form-control" required>
-    </div>
-    <div class="mb-3">
-      <label for="password">Пароль</label>
-      <input type="password" name="password" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Войти</button>
-  </form>
+  
+    
+    <h1>Вход</h1>
+    {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    <form method="post" action="">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username">Имя пользователя</label>
+        <input type="text" name="username" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="password">Пароль</label>
+        <input type="password" name="password" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Войти</button>
+      
+    </form>
+  
+  
+    <a href="/announcement/register" class="btn btn-primary my-2">Зарегистрироваться</a>
+
 {% endblock %}
