@@ -2,10 +2,10 @@
 
 **Технологии проекта**
 
-Django = 4.2.21
-django-bootstrap5 = 25.1
-django-extensions = 4.1
-djangorestframework = 3.16.0
+- Django: 4.2.21
+- django-bootstrap5: 25.1
+- django-extensions: 4.1
+- djangorestframework: 3.16.0
 
 
 
@@ -47,15 +47,11 @@ http://127.0.0.1:8000/admin
 ```
 
 **Доступные страницы**
-Страница логина
-http://127.0.0.1:8000/announcement/login/
-Страница регистрации
-http://127.0.0.1:8000/announcement/register/
-Страница с объявлениями
-http://127.0.0.1:8000/announcement/list/
-Детальная информация об объявлении
-http://127.0.0.1:8000/announcement/4/detail/
-Страница с поступившими ит отправленными заявками
-http://127.0.0.1:8000/announcement/proposal/
-Создание нового объявления
-http://127.0.0.1:8000/announcement/create/
+| Страница           | URL                             | Описание                             |
+|--------------------|---------------------------------|------------------------------------|
+| Логин              | /announcement/login/             | Вход пользователя                  |
+| Регистрация        | /announcement/register/          | Регистрация нового пользователя    |
+| Список объявлений  | /announcement/list/              | Просмотр списка объявлений         |
+| Детальная страница | /announcement/<id>/detail/       | Детальная информация об объявлении |
+| Заявки             | /announcement/proposal/          | Просмотр входящих и исходящих заявок |
+| Создание объявления| /announcement/create/            | Форма создания нового объявления    |

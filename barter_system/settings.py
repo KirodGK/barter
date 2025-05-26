@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_bootstrap5',
     'django_extensions',
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -128,9 +129,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': PAGE_SIZE,
 }
